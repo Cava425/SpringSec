@@ -56,6 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers("/oauth/**", "/login/**").permitAll()
                 .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
                 .antMatchers("/**").access("hasRole('ROLE_USER')")
                 .anyRequest().authenticated()
@@ -65,7 +66,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .usernameParameter("username")
                 .passwordParameter("password")
                 // 重定向到登录
-                .loginProcessingUrl("/login").permitAll()
+                .loginProcessingUrl("/login")
+                .permitAll()
                 // 登录成功以及失败后的处理
                 .successHandler(authenticationSuccessHandler)
                 .failureHandler(authenticationFailureHandler)
