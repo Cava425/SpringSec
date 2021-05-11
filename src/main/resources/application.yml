@@ -7,20 +7,6 @@ spring:
 
 
 
-    redis:
-      # server address
-      host: 192.168.2.127
-      # server port
-      port: 6379
-      # database
-      database: 0
-      timeout: 10000ms
-      lettuce:
-        pool:
-          max-active: 8
-          max-wait: 10000ms
-          max-idle: 200
-          min-idle: 5
 
 
 
