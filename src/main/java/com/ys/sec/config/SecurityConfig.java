@@ -4,6 +4,7 @@ import com.ys.sec.service.impl.UserDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -44,6 +45,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new UserDetailServiceImpl();
     }
 
+    /**
+     * 记住我持久化的Repository
+     * @return
+     */
     @Bean
     PersistentTokenRepository persistentTokenRepository(){
         JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
@@ -51,6 +56,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 仅在第一次运行时设置
         // tokenRepository.setCreateTableOnStartup(true);
         return tokenRepository;
+    }
+
+
+    /**
+     * 密码模式中使用的AuthenticationManager
+     * @return
+     * @throws Exception
+     */
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 
     @Override
