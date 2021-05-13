@@ -1,9 +1,6 @@
 package com.ys.sec.config;
 
 import com.ys.sec.entity.CustomTokenEnhancer;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.io.Encoders;
-import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +17,6 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
-import javax.crypto.SecretKey;
 import java.util.Arrays;
 
 @Configuration
@@ -74,10 +70,14 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .withClient("admin")
                 // client password
                 .secret(encoder.encode("123456"))
+                // 设置令牌的失效时间
+                .accessTokenValiditySeconds(1800)
+                // 刷新令牌失效时间
+                .refreshTokenValiditySeconds(8467200)
                 .redirectUris("http://localhost:8080/oauth/authorized/code")
                 //
                 .scopes("all")
-                .authorizedGrantTypes("authorization_code", "password");
+                .authorizedGrantTypes("authorization_code", "password", "refresh_token");
     }
 
 
